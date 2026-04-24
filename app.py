@@ -1,16 +1,22 @@
 import pickle
+import streamlit as st
 import os
 
+# ✅ ALWAYS define first
 model = None
 
-try:
-    if os.path.exists("final_model.pkl"):
-        with open("final_model.pkl", "rb") as f:
+model_path = "final_model.pkl"
+
+if not os.path.exists(model_path):
+    st.warning("⚠ Model file not found")
+else:
+    try:
+        with open(model_path, "rb") as f:
             model = pickle.load(f)
-    else:
-        st.error("Model file not found")
-except Exception as e:
-    st.error(f"Error loading model: {e}")
+        st.success("✅ Model loaded successfully")
+    except Exception as e:
+        st.error(f"❌ Error loading model: {e}")
+
     
 st.set_page_config(page_title="Outcome Prediction", layout="wide")
 
